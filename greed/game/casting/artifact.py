@@ -31,3 +31,15 @@ class Artifact(Actor):
             message (string): The given messasge.
         """
         self._message = message
+
+    def set_value(self, value):
+        """Set the points for artifacts.
+        Args:
+            value (int): The given point value."""
+        self._value = value
+
+    def get_value(self):
+        """gets the points value of Artifact.
+        Returns:
+            value (int): The artifact's point value."""
+        return self._value
