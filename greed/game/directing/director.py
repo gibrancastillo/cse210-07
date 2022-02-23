@@ -55,7 +55,7 @@ class Director:
         banner = cast.get_first_actor("banners")
         robot = cast.get_first_actor("robots")
         artifacts = cast.get_actors("artifacts")
-        score = cast.get_first_actor("scores")
+        #score = cast.get_first_actor("scores")
 
         banner.set_text("")
         max_x = self._video_service.get_width()
@@ -71,14 +71,14 @@ class Director:
                 # Checks to add the banner with the respective color and points
                 if artifact.get_value() >= 1:
                     score_kept = artifact.get_value()
-                    score.set_color(Color(0, 255, 0))
-                    score.set_text(f"+{score_kept} Points")
+                    banner.set_color(Color(0, 255, 0))
+                    banner.set_text(f"+{score_kept} Points")
                 else:    
                     score_kept = str(artifact.get_value())
-                    score.set_color(Color(255, 0, 0))
+                    banner.set_color(Color(255, 0, 0))
                     if artifact.get_value() == 0:
-                        score.set_color(Color(211, 211, 211))
-                    score.set_text(f"{score_kept} Points")
+                        banner.set_color(Color(211, 211, 211))
+                    banner.set_text(f"{score_kept} Points")
 
                 cast.remove_actor("artifacts", artifact)
                 message = random.choice(["o", "*"])
