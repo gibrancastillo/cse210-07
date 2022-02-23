@@ -4,7 +4,7 @@ import random
 from pyray import maximize_window
 
 from game.casting.actor import Actor
-from game.casting.artifact import Artifact
+from game.casting.gem import Gem
 from game.casting.cast import Cast
 
 from game.directing.director import Director
@@ -35,7 +35,7 @@ def main():
     cast = Cast()
     
     # create the banner
-    banner = Artifact()
+    banner = Gem()
     banner.set_value(0)
     banner.set_text("Score: 0")
     banner.set_font_size(FONT_SIZE)
@@ -68,7 +68,7 @@ def main():
         b = random.randint(0, 255)
         color = Color(r, g, b)
         
-        artifact = Artifact()
+        artifact = Gem()
         # the logic behind keeping scores
         if message == "o":
             artifact.set_value(-1)
