@@ -1,6 +1,6 @@
 from game.casting.actor import Actor
+from game.shared.point import Point
 
-# TODO: Implement the Artifact class here. Don't forget to inherit from Actor!
 class Artifact(Actor):
     """
     An item of cultural or historical interest. 
@@ -13,8 +13,9 @@ class Artifact(Actor):
 
     def __init__(self):
         """Constructs a new Artifact."""
-        super().__init__() # To inherit Actor's attributes
-        self._message = "" # "You found kitten!"
+        super().__init__() 
+        self._message = "" 
+        self._value = 0
     
     def get_message(self):
         """Gets the artifact's message.

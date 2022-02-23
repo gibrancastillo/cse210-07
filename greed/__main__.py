@@ -1,6 +1,8 @@
 import os
 import random
 
+from pyray import maximize_window
+
 from game.casting.actor import Actor
 from game.casting.artifact import Artifact
 from game.casting.cast import Cast
@@ -17,14 +19,15 @@ from game.shared.point import Point
 FRAME_RATE = 12
 MAX_X = 900
 MAX_Y = 600
+MAX_WINDOW = (MAX_X, MAX_Y)
 CELL_SIZE = 15
 FONT_SIZE = 15
 COLS = 60
 ROWS = 40
-CAPTION = "Robot Finds Kitten"
+CAPTION = "Greed"
 DATA_PATH = os.path.dirname(os.path.abspath(__file__)) + "/data/messages.txt"
 WHITE = Color(255, 255, 255)
-DEFAULT_ARTIFACTS = 40
+DEFAULT_ARTIFACTS = 60
 
 
 def main():
@@ -33,8 +36,9 @@ def main():
     cast = Cast()
     
     # create the banner
-    banner = Actor()
-    banner.set_text("")
+    banner = Artifact()
+    banner.set_value(0)
+    banner.set_text("Score: 0")
     banner.set_font_size(FONT_SIZE)
     banner.set_color(WHITE)
     banner.set_position(Point(CELL_SIZE, 0))
@@ -42,12 +46,12 @@ def main():
     
     # create the robot
     x = int(MAX_X / 2)
-    y = int(MAX_Y / 2)
+    y = int(MAX_Y - CELL_SIZE - 10)
     position = Point(x, y)
 
     robot = Actor()
     robot.set_text("#")
-    robot.set_font_size(FONT_SIZE)
+    robot.set_font_size(30)
     robot.set_color(WHITE)
     robot.set_position(position)
     cast.add_actor("robots", robot)
@@ -58,9 +62,8 @@ def main():
         messages = data.splitlines()
 
     for n in range(DEFAULT_ARTIFACTS):
-        text = chr(random.randint(33, 126))
-        message = messages[n]
-
+        message = random.choice(["o", "*"])
+        
         x = random.randint(1, COLS - 1)
         y = random.randint(1, ROWS - 1)
         position = Point(x, y)
@@ -72,11 +75,18 @@ def main():
         color = Color(r, g, b)
         
         artifact = Artifact()
-        artifact.set_text(text)
+        # the logic behind keeping scores
+        if message == "o":
+            artifact.set_value(-1)
+        elif message == "*":
+            artifact.set_value(1)
+
+        artifact.set_text(message)
         artifact.set_font_size(FONT_SIZE)
         artifact.set_color(color)
         artifact.set_position(position)
         artifact.set_message(message)
+        artifact.set_velocity(Point(0, 5))
         cast.add_actor("artifacts", artifact)
     
     # start the game
