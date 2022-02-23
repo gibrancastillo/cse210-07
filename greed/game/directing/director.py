@@ -1,7 +1,7 @@
 import random
 from game.shared.point import Point
 from game.shared.color import Color
-from game.casting.artifact import Artifact
+from game.casting.gem import Gem
 
 class Director:
     """A person who directs the game. 
@@ -95,7 +95,7 @@ class Director:
                 b = random.randint(0, 255)
                 color = Color(r, g, b)
         
-                another_artifact = Artifact()
+                another_artifact = Gem()
                 if message == "o":
                     another_artifact.set_value(-1)
                 elif message == "*":
