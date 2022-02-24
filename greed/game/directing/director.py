@@ -56,7 +56,7 @@ class Director:
         robot = cast.get_first_actor("robots")
         rocks = cast.get_actors("rocks")
         gems = cast.get_actors("gems")
-        #score = cast.get_first_actor("scores")
+        score = cast.get_first_actor("scores")
 
         banner.set_text("")
         max_x = self._video_service.get_width()

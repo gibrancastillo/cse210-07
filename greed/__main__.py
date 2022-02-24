@@ -38,20 +38,28 @@ def main():
     
     # create the banner
     banner = Actor()
-    banner.set_text("Score: 0")
+    banner.set_text(f"Score: 0")
     banner.set_font_size(FONT_SIZE)
     banner.set_color(WHITE)
     banner.set_position(Point(CELL_SIZE, 0))
     cast.add_actor("banners", banner)
+
+    score = Gem()
+    score.set_score(0)
+    score.set_text(f"")
+    score.set_font_size(10)
+    score.set_color(WHITE)
+    score.set_position(Point(CELL_SIZE, 20))
+    cast.add_actor("scores", score)
     
     # create the robot
     x = int(MAX_X / 2)
-    y = int(MAX_Y - CELL_SIZE - 10)
+    y = int(MAX_Y - CELL_SIZE - 5)
     position = Point(x, y)
 
     robot = Actor()
     robot.set_text("#")
-    robot.set_font_size(30)
+    robot.set_font_size(20)
     robot.set_color(WHITE)
     robot.set_position(position)
     cast.add_actor("robots", robot)
@@ -70,22 +78,26 @@ def main():
         color = Color(r, g, b)
         
         # the logic behind keeping scores
+        aritfact = Actor()
+
         if message == "o":
             rock = Rock()
             rock.set_text(message)
             rock.set_font_size(FONT_SIZE)
             rock.set_color(color)
             rock.set_position(position)
-            rock.set_velocity(Point(0, 5))
+            rock.set_velocity(Point(0, 10))
             cast.add_actor("rocks", rock)
+            aritfact.set_score(-1)
         elif message == "*":
             gem = Gem()
             gem.set_text(message)
             gem.set_font_size(FONT_SIZE)
             gem.set_color(color)
             gem.set_position(position)
-            gem.set_velocity(Point(0, 5))
+            gem.set_velocity(Point(0, 6))
             cast.add_actor("gems", gem)
+            aritfact.set_score(1)
     
     # start the game
     keyboard_service = KeyboardService(CELL_SIZE)
