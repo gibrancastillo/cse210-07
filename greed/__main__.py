@@ -5,6 +5,7 @@ from pyray import maximize_window
 
 from game.casting.actor import Actor
 from game.casting.gem import Gem
+from game.casting.rock import Rock
 from game.casting.cast import Cast
 
 from game.directing.director import Director
@@ -14,6 +15,7 @@ from game.services.video_service import VideoService
 
 from game.shared.color import Color
 from game.shared.point import Point
+
 
 
 FRAME_RATE = 12
@@ -35,8 +37,7 @@ def main():
     cast = Cast()
     
     # create the banner
-    banner = Gem()
-    banner.set_value(0)
+    banner = Actor()
     banner.set_text("Score: 0")
     banner.set_font_size(FONT_SIZE)
     banner.set_color(WHITE)
@@ -68,20 +69,23 @@ def main():
         b = random.randint(0, 255)
         color = Color(r, g, b)
         
-        artifact = Gem()
         # the logic behind keeping scores
         if message == "o":
-            artifact.set_value(-1)
+            rock = Rock()
+            rock.set_text(message)
+            rock.set_font_size(FONT_SIZE)
+            rock.set_color(color)
+            rock.set_position(position)
+            rock.set_velocity(Point(0, 5))
+            cast.add_actor("rocks", rock)
         elif message == "*":
-            artifact.set_value(1)
-
-        artifact.set_text(message)
-        artifact.set_font_size(FONT_SIZE)
-        artifact.set_color(color)
-        artifact.set_position(position)
-        artifact.set_message(message)
-        artifact.set_velocity(Point(0, 5))
-        cast.add_actor("artifacts", artifact)
+            gem = Gem()
+            gem.set_text(message)
+            gem.set_font_size(FONT_SIZE)
+            gem.set_color(color)
+            gem.set_position(position)
+            gem.set_velocity(Point(0, 5))
+            cast.add_actor("gems", gem)
     
     # start the game
     keyboard_service = KeyboardService(CELL_SIZE)

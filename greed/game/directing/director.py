@@ -54,7 +54,8 @@ class Director:
         """
         banner = cast.get_first_actor("banners")
         robot = cast.get_first_actor("robots")
-        artifacts = cast.get_actors("artifacts")
+        rocks = cast.get_actors("rocks")
+        gems = cast.get_actors("gems")
         #score = cast.get_first_actor("scores")
 
         banner.set_text("")
@@ -62,25 +63,37 @@ class Director:
         max_y = self._video_service.get_height()
         robot.move_next(max_x, max_y)
         
+        self.play_game(rocks, cast, banner, robot)
+        self.play_game(gems, cast, banner, robot) 
+
+    def play_game(self, artifacts, cast, banner, robot):
+        points = banner.get_score()
+        banner.set_score(points)
+        banner.set_text(f"Score: {points}")
+
         for artifact in artifacts:
             if robot.get_position().equals(artifact.get_position()):
-                points = banner.get_value() + artifact.get_value()
-                banner.set_value(points)
+                points = banner.get_score() + artifact.get_score()
+                banner.set_score(points)
                 banner.set_text(f"Score: {points}")
 
                 # Checks to add the banner with the respective color and points
-                if artifact.get_value() >= 1:
-                    score_kept = artifact.get_value()
+                if artifact.get_score() >= 1:
+                    score_kept = artifact.get_score()
                     banner.set_color(Color(0, 255, 0))
                     banner.set_text(f"+{score_kept} Points")
                 else:    
-                    score_kept = str(artifact.get_value())
+                    score_kept = str(artifact.get_score())
                     banner.set_color(Color(255, 0, 0))
-                    if artifact.get_value() == 0:
+                    if artifact.get_score() == 0:
                         banner.set_color(Color(211, 211, 211))
                     banner.set_text(f"{score_kept} Points")
 
-                cast.remove_actor("artifacts", artifact)
+                if(artifact.get_text == "*"):
+                    cast.remove_actor("gems", artifact)
+                elif(artifact.get_text == "o"):
+                    cast.remove_actor("rocks", artifact)
+                
                 message = random.choice(["o", "*"])
                 columns = (self._video_service.get_height() / self._video_service.get_cell_size())
                 rows = (self._video_service.get_width() / self._video_service.get_cell_size())
@@ -97,22 +110,26 @@ class Director:
         
                 another_artifact = Gem()
                 if message == "o":
-                    another_artifact.set_value(-1)
+                    another_artifact.set_score(-1)
                 elif message == "*":
-                    another_artifact.set_value(1)
+                    another_artifact.set_score(1)
                 elif message == "?":
-                    another_artifact.set_value(random.randint(-3, 3))
+                    another_artifact.set_score(random.randint(-3, 3))
                 another_artifact.set_text(message)
                 another_artifact.set_font_size(self._video_service.get_cell_size())
                 another_artifact.set_color(color)
                 another_artifact.set_position(position)
-                another_artifact.set_message(message)
                 another_artifact.set_velocity(Point(0, 5))
-                cast.add_actor("artifacts", another_artifact)
+
+                if(artifact.get_text == "*"):
+                    cast.add_actor("gems", another_artifact)
+                elif(artifact.get_text == "o"):
+                    cast.add_actor("rocks", another_artifact)
+                
             position = artifact.get_position()
             max_x = self._video_service.get_width()
             max_y = self._video_service.get_height()
-            artifact.move_next(max_x, max_y)    
+            artifact.move_next(max_x, max_y)   
         
     def _do_outputs(self, cast):
         """Draws the actors on the screen.
