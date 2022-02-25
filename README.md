@@ -1,5 +1,5 @@
 # Greed
-Pending ... needs description
+This a game where you try and collect as much gems(*) as possible while earning points and at the same time, avoid rocks(0) that will affect your score. There is no target points you should reach so the game will go on and on until you close it. Enjoy not getting hit by rocks!
 
 ## Getting Started
 ---
