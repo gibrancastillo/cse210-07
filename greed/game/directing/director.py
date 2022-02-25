@@ -47,7 +47,7 @@ class Director:
         robot.set_velocity(velocity)        
 
     def _do_updates(self, cast):
-        """Updates the robot's position and resolves any collisions with artifacts.
+        """Updates the robot's position and resolves any collisions with gems.
         
         Args:
             cast (Cast): The cast of actors.
@@ -66,33 +66,33 @@ class Director:
         self.play_game(rocks, cast, banner, robot)
         self.play_game(gems, cast, banner, robot) 
 
-    def play_game(self, artifacts, cast, banner, robot):
-        points = banner.get_score()
-        banner.set_score(points)
-        banner.set_text(f"Score: {points}")
+    def play_game(self, gems, cast, banner, robot):
+        score_points = banner.get_score()
+        banner.set_score(score_points)
+        banner.set_text(f"Score: {score_points}")
 
-        for artifact in artifacts:
-            if robot.get_position().equals(artifact.get_position()):
-                points = banner.get_score() + artifact.get_score()
-                banner.set_score(points)
-                banner.set_text(f"Score: {points}")
+        for gem in gems:
+            if robot.get_position().equals(gem.get_position()):
+                score_points = banner.get_score() + gem.get_score()
+                banner.set_score(score_points)
+                banner.set_text(f"Score: {score_points}")
 
-                # Checks to add the banner with the respective color and points
-                if artifact.get_score() >= 1:
-                    score_kept = artifact.get_score()
-                    banner.set_color(Color(0, 255, 0))
+                # Checks to add the banner with the respective color and score_points
+                if gem.get_score() >= 1:
+                    score_kept = gem.get_score()
+                    gem.set_color(Color(0, 255, 0))
                     banner.set_text(f"+{score_kept} Points")
                 else:    
-                    score_kept = str(artifact.get_score())
+                    score_kept = str(gem.get_score())
                     banner.set_color(Color(255, 0, 0))
-                    if artifact.get_score() == 0:
+                    if gem.get_score() == 0:
                         banner.set_color(Color(211, 211, 211))
                     banner.set_text(f"{score_kept} Points")
 
-                if(artifact.get_text == "*"):
-                    cast.remove_actor("gems", artifact)
-                elif(artifact.get_text == "o"):
-                    cast.remove_actor("rocks", artifact)
+                if(gem.get_text == "*"):
+                    cast.remove_actor("gems", gem)
+                elif(gem.get_text == "o"):
+                    cast.remove_actor("rocks", gem)
                 
                 message = random.choice(["o", "*"])
                 columns = (self._video_service.get_height() / self._video_service.get_cell_size())
@@ -108,28 +108,27 @@ class Director:
                 b = random.randint(0, 255)
                 color = Color(r, g, b)
         
-                another_artifact = Gem()
-                if message == "o":
-                    another_artifact.set_score(-1)
-                elif message == "*":
-                    another_artifact.set_score(1)
-                elif message == "?":
-                    another_artifact.set_score(random.randint(-3, 3))
-                another_artifact.set_text(message)
-                another_artifact.set_font_size(self._video_service.get_cell_size())
-                another_artifact.set_color(color)
-                another_artifact.set_position(position)
-                another_artifact.set_velocity(Point(0, 5))
-
-                if(artifact.get_text == "*"):
-                    cast.add_actor("gems", another_artifact)
-                elif(artifact.get_text == "o"):
-                    cast.add_actor("rocks", another_artifact)
+                # another_artifact = Gem()
+                # if message == "o":
+                #     another_artifact.set_score(-1)
+                # elif message == "*":
+                #     another_artifact.set_score(1)
                 
-            position = artifact.get_position()
+                # another_artifact.set_text(message)
+                # another_artifact.set_font_size(self._video_service.get_cell_size())
+                # another_artifact.set_color(color)
+                # another_artifact.set_position(position)
+                # another_artifact.set_velocity(Point(0, 5))
+
+                # if(gem.get_text == "*"):
+                #     cast.add_actor("gems", another_artifact)
+                # elif(gem.get_text == "o"):
+                #     cast.add_actor("rocks", another_artifact)
+                
+            position = gem.get_position()
             max_x = self._video_service.get_width()
             max_y = self._video_service.get_height()
-            artifact.move_next(max_x, max_y)   
+            gem.move_next(max_x, max_y)   
         
     def _do_outputs(self, cast):
         """Draws the actors on the screen.
