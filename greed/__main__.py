@@ -2,8 +2,7 @@ import os
 import random
 
 from game.casting.actor import Actor
-from game.casting.gem import Gem
-from game.casting.rock import Rock
+from game.casting.artifact import Artifact
 from game.casting.cast import Cast
 
 from game.directing.director import Director
@@ -28,7 +27,9 @@ DEFAULT_ARTIFACTS = 60
 
 
 def main():
-    
+    '''
+    Starts and plays the game
+    '''
     # create the cast
     cast = Cast()
     
@@ -48,7 +49,7 @@ def main():
 
     robot = Actor()
     robot.set_text("#")
-    robot.set_font_size(FONT_SIZE) #set_font_size(20)
+    robot.set_font_size(FONT_SIZE)
     robot.set_color(WHITE)
     robot.set_position(position)
     cast.add_actor("robots", robot)
@@ -66,26 +67,22 @@ def main():
         b = random.randint(0, 255)
         color = Color(r, g, b)
 
+        artifact = Artifact()
+        artifact.set_text(message)
+        artifact.set_font_size(FONT_SIZE)
+        artifact.set_color(color)
+        artifact.set_position(position)
+
         if message == "o":
-            rock = Rock()
-            rock.set_text(message)
-            rock.set_font_size(FONT_SIZE)
-            rock.set_color(color)
-            rock.set_position(position)
-            rock.set_lose_point(-1)
+            artifact.set_point(-1)
             # Rocks (o) randomly appear and fall from the top of the screen.
-            rock.set_velocity(Point(0, 10))
-            cast.add_actor("artifacts", rock)
+            artifact.set_velocity(Point(0, 10))
         elif message == "*":
-            gem = Gem()
-            gem.set_text(message)
-            gem.set_font_size(FONT_SIZE)
-            gem.set_color(color)
-            gem.set_position(position)
-            gem.set_earn_point(1)
+            artifact.set_point(1)
             # Gems (*) randomly appear and fall from the top of the screen.
-            gem.set_velocity(Point(0, 6))
-            cast.add_actor("artifacts", gem)
+            artifact.set_velocity(Point(0, 6))
+        
+        cast.add_actor("artifacts", artifact)
     
     # start the game
     keyboard_service = KeyboardService(CELL_SIZE)
@@ -94,5 +91,9 @@ def main():
     director.start_game(cast)
 
 
+# If this file was executed like this: % python3 tictactoe.py
+# then call the main function. However, if this file
+# was simply imported, then skip the call to main.
 if __name__ == "__main__":
+    # Start this program by calling the main function.
     main()

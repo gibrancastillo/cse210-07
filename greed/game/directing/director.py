@@ -42,7 +42,7 @@ class Director:
         robot.set_velocity(velocity)        
 
     def _do_updates(self, cast):
-        """Updates the robot's position and resolves any collisions with gems.
+        """Updates the robot's position and resolves any collisions with gems and rocks.
         
         Args:
             cast (Cast): The cast of actors.
@@ -50,33 +50,21 @@ class Director:
         banner = cast.get_first_actor("banners")
         robot = cast.get_first_actor("robots")
         artifacts = cast.get_actors("artifacts")
-        # gems = cast.get_actors("gems")
 
-        banner.set_text("")
+        #banner.set_text("")
         max_x = self._video_service.get_width()
         max_y = self._video_service.get_height()
         robot.move_next(max_x, max_y)
         
-        self.play_game(artifacts, cast, banner, robot)
-
-    def play_game(self, artifacts, cast, banner, robot):
         score_points = banner.get_score()
-        #print(f"score_points: {score_points}")
         banner.set_score(score_points)
         banner.set_text(f"Score: {score_points}")
-        #print(f"banner.get_score(): {banner.get_score()}")
-        #print(f"banner.get_text(): {banner.get_text()}")
 
         for artifact in artifacts:
             if robot.get_position().equals(artifact.get_position()):
                 print(f"robot.get_position(): {robot.get_position()} equals artifact.get_position(): {artifact.get_position()}")
-                if(artifact.get_text == "*"):
-                    cast.remove_actor("gems", artifact)
-                    score_points = banner.get_score() + artifact.get_earn_point()
-                elif(artifact.get_text == "o"):
-                    cast.remove_actor("rocks", artifact)
-                    score_points = banner.get_score() + artifact.get_lose_point()
-                
+                score_points = banner.get_score() + artifact.get_point()
+                cast.remove_actor("artifacts", artifact)
                 banner.set_score(score_points)
                 banner.set_text(f"Score: {score_points}")
             
