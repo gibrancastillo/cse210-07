@@ -49,16 +49,15 @@ class Director:
         """
         banner = cast.get_first_actor("banners")
         robot = cast.get_first_actor("robots")
-        rocks = cast.get_actors("rocks")
-        gems = cast.get_actors("gems")
+        artifacts = cast.get_actors("artifacts")
+        # gems = cast.get_actors("gems")
 
         banner.set_text("")
         max_x = self._video_service.get_width()
         max_y = self._video_service.get_height()
         robot.move_next(max_x, max_y)
         
-        self.play_game(rocks, cast, banner, robot)
-        self.play_game(gems, cast, banner, robot) 
+        self.play_game(artifacts, cast, banner, robot)
 
     def play_game(self, artifacts, cast, banner, robot):
         score_points = banner.get_score()
@@ -80,7 +79,8 @@ class Director:
                 
                 banner.set_score(score_points)
                 banner.set_text(f"Score: {score_points}")
-                
+            
+            # Gems (*) and rocks (o) randomly appear and fall from the top of the screen.
             max_x = self._video_service.get_width()
             max_y = self._video_service.get_height()
             artifact.move_next(max_x, max_y)   

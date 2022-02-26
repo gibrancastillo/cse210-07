@@ -75,7 +75,7 @@ def main():
             rock.set_lose_point(-1)
             # Rocks (o) randomly appear and fall from the top of the screen.
             rock.set_velocity(Point(0, 10))
-            cast.add_actor("rocks", rock)
+            cast.add_actor("artifacts", rock)
         elif message == "*":
             gem = Gem()
             gem.set_text(message)
@@ -85,7 +85,7 @@ def main():
             gem.set_earn_point(1)
             # Gems (*) randomly appear and fall from the top of the screen.
             gem.set_velocity(Point(0, 6))
-            cast.add_actor("gems", gem)
+            cast.add_actor("artifacts", gem)
     
     # start the game
     keyboard_service = KeyboardService(CELL_SIZE)
