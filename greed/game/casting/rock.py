@@ -7,7 +7,7 @@ class Rock(Actor):
     The responsibility of an Artifact is to provide a message about itself.
 
     Attributes:
-        _message (string): A short description about the artifact.
+        _lose_point (int): the player touches a rock they lose a point.
     """
 
     def __init__(self):

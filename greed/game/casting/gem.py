@@ -7,7 +7,7 @@ class Gem(Actor):
     The responsibility of an Artifact is to provide a message about itself.
 
     Attributes:
-        _message (string): A short description about the artifact.
+        _earn_point (int): the player touches a gem they earn a point
     """
 
     def __init__(self):

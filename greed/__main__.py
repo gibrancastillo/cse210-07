@@ -1,8 +1,6 @@
 import os
 import random
 
-from pyray import maximize_window
-
 from game.casting.actor import Actor
 from game.casting.gem import Gem
 from game.casting.rock import Rock
@@ -17,11 +15,9 @@ from game.shared.color import Color
 from game.shared.point import Point
 
 
-
 FRAME_RATE = 12
 MAX_X = 900
 MAX_Y = 600
-MAX_WINDOW = (MAX_X, MAX_Y)
 CELL_SIZE = 15
 FONT_SIZE = 15
 COLS = 60
@@ -43,23 +39,16 @@ def main():
     banner.set_color(WHITE)
     banner.set_position(Point(CELL_SIZE, 0))
     cast.add_actor("banners", banner)
-
-    score = Gem()
-    score.set_score(0)
-    score.set_text(f"")
-    score.set_font_size(10)
-    score.set_color(WHITE)
-    score.set_position(Point(CELL_SIZE, 20))
-    cast.add_actor("scores", score)
     
     # create the robot
     x = int(MAX_X / 2)
-    y = int(MAX_Y - CELL_SIZE - 5)
+    # The player, a.k.a robot (#) can move left or right along the bottom of the screen.
+    y = int(MAX_Y - CELL_SIZE - 5) 
     position = Point(x, y)
 
     robot = Actor()
     robot.set_text("#")
-    robot.set_font_size(20)
+    robot.set_font_size(FONT_SIZE) #set_font_size(20)
     robot.set_color(WHITE)
     robot.set_position(position)
     cast.add_actor("robots", robot)
@@ -76,9 +65,6 @@ def main():
         g = random.randint(0, 255)
         b = random.randint(0, 255)
         color = Color(r, g, b)
-        
-        # the logic behind keeping scores
-        aritfact = Actor()
 
         if message == "o":
             rock = Rock()
@@ -86,18 +72,20 @@ def main():
             rock.set_font_size(FONT_SIZE)
             rock.set_color(color)
             rock.set_position(position)
+            rock.set_lose_point(-1)
+            # Rocks (o) randomly appear and fall from the top of the screen.
             rock.set_velocity(Point(0, 10))
             cast.add_actor("rocks", rock)
-            aritfact.set_score(-1)
         elif message == "*":
             gem = Gem()
             gem.set_text(message)
             gem.set_font_size(FONT_SIZE)
             gem.set_color(color)
             gem.set_position(position)
+            gem.set_earn_point(1)
+            # Gems (*) randomly appear and fall from the top of the screen.
             gem.set_velocity(Point(0, 6))
             cast.add_actor("gems", gem)
-            aritfact.set_score(1)
     
     # start the game
     keyboard_service = KeyboardService(CELL_SIZE)
