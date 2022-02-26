@@ -11,6 +11,7 @@ python3 -m pip install raylib
 ```
 After you've installed the required libraries, open a terminal and browse to the project's root folder. Start the program by running the following command.```
 
+```
 python3 greed 
 ```
 You can also run the program from an IDE like Visual Studio Code. Start your IDE and open the 
@@ -27,7 +28,6 @@ root                    (project root folder)
   +-- __main__.py       (entry point for program)
 +-- README.md           (general info)
 ```
-
 ## Required Technologies
 ---
 * Python 3.8.0
@@ -48,6 +48,7 @@ root                    (project root folder)
 ---
 * Gibran Castillo (cas21045@byui.edu)
 * Clyve Kokotiko (kok21002@byui.edu)
-* Roguin ...
-* Patric ...
+* Isiakpona Chuks (juliusrlnd@gmail.com)
+* Patrick Ochen (patrickochen97@gmail.com)
+* Roguin Peña (ro.guin31@gmail.com)
 * Zibanani Nkomo (nko21005@byui.edu)
