@@ -1,3 +1,8 @@
+import random
+from game.casting.artifact import Artifact
+from game.shared.point import Point
+
+
 class Director:
     """A person who directs the game. 
     
@@ -67,6 +72,24 @@ class Director:
                 cast.remove_actor("artifacts", artifact)
                 banner.set_score(score_points)
                 banner.set_text(f"Score: {score_points}")
+
+                # repopulate artifact
+                new_artifact = Artifact()
+                new_artifact.set_text(artifact.get_text())
+                new_artifact.set_font_size(artifact.get_font_size())
+                new_artifact.set_color(artifact.get_color())
+                new_artifact.set_position(Point(random.randint(1, 59), 1))
+
+                if artifact.get_text() == "o":
+                    new_artifact.set_point(-1)
+                    # Rocks (o) randomly appear and fall from the top of the screen.
+                    new_artifact.set_velocity(Point(0, 10))
+                elif artifact.get_text() == "*":
+                    new_artifact.set_point(1)
+                    # Gems (*) randomly appear and fall from the top of the screen.
+                    new_artifact.set_velocity(Point(0, 6))
+        
+                cast.add_actor("artifacts", new_artifact)
             
             # Gems (*) and rocks (o) randomly appear and fall from the top of the screen.
             max_x = self._video_service.get_width()
