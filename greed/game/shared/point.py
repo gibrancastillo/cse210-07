@@ -41,7 +41,14 @@ class Point:
         Returns: 
             boolean: True if both x and y are equal; false if otherwise.
         """
-        return self._x == other.get_x() and self._y == other.get_y()
+        # Loosening up the definition of equals because the gems and rocks (artifacts) are falling
+        # Thereofre, this return self._x == other.get_x() and self._y == other.get_y() doesn't evaluate 
+        # to true very often because the gems have velocity that is moving them in a way that their x and y 
+        # will rarely be exactly equal to the x and y of the gems/rocks.
+        # Below is a looser implementation that doesn't rely on the x and y being exactly the same:
+        x_diff = abs(self._x - other.get_x())
+        y_diff = abs(self._y - other.get_y())
+        return x_diff < 8 and y_diff < 8
 
     def get_x(self):
         """Gets the horizontal distance.
