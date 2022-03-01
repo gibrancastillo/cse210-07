@@ -67,7 +67,6 @@ class Director:
 
         for artifact in artifacts:
             if robot.get_position().equals(artifact.get_position()):
-                print(f"robot.get_position(): {robot.get_position()} equals artifact.get_position(): {artifact.get_position()}")
                 score_points = banner.get_score() + artifact.get_point()
                 cast.remove_actor("artifacts", artifact)
                 banner.set_score(score_points)
